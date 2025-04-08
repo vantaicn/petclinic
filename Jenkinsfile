@@ -73,7 +73,7 @@ pipeline {
                     for (service in services) {
                         dir(service) {
                             echo "Building ${service}"
-                            sh "./mvnw clean package -DskipTests"
+                            sh "mvn clean package -DskipTests"
                         }
                     }
                 }
