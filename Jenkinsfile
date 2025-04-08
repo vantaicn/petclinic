@@ -5,6 +5,10 @@ pipeline {
         CHANGED_FILES = ''
     }
 
+    tools {
+        maven 'Maven_3.9.9'
+    }
+
     stages {
         stage('Detect Changed Service') {
             steps {
