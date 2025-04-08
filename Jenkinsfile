@@ -54,7 +54,7 @@ pipeline {
                     for (service in services) {
                         dir(service) {
                             echo "Running tests for ${service}"
-                            sh "./mvnw test"
+                            sh "mvn test"
                         }
                     }
                 }
