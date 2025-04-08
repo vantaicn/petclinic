@@ -58,7 +58,7 @@ pipeline {
                     for (service in services) {
                         dir(service) {
                             echo "Running tests for ${service}"
-                            sh "mvn test"
+                            sh "mvn clean verify"
                         }
                     }
                 }
