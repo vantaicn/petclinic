@@ -59,19 +59,19 @@ pipeline {
             }
         }
 
-        // stage('Build') {
-        //     steps {
-        //         script {
-        //             def services = env.CHANGED_SERVICES.split(',')
-        //             for (service in services) {
-        //                 dir(service) {
-        //                     echo "Building ${service}"
-        //                     sh "mvn clean package -DskipTests"
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Build') {
+            steps {
+                script {
+                    def services = env.CHANGED_SERVICES.split(',')
+                    for (service in services) {
+                        dir(service) {
+                            echo "Building ${service}"
+                            sh "mvn package -DskipTests"
+                        }
+                    }
+                }
+            }
+        }
 
         stage('Debug Folder Structure') {
     steps {
