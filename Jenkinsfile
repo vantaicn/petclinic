@@ -138,7 +138,7 @@ pipeline {
                     for (service in services) {
                         dir(service) {
                             junit 'target/surefire-reports/*.xml'
-                            recordCoverage(tools: [jacoco()])
+                            recordCoverage tools: ['JACOCO']
                         }
                     }
                 }
