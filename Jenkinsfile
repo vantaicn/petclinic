@@ -5,23 +5,37 @@ pipeline {
         CHANGED_FILES = ''
     }
 
+    tools {
+        maven 'Maven 3.9.9'
+    }
+
     stages {
         stage('Detect Changed Service') {
             steps {
                 script {
-                    // Lấy danh sách các file thay đổi từ git
+                    // Fetch all branches including main
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/${env.BRANCH_NAME}"]],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/vantaicn/petclinic.git',
+                            credentialsId: 'github-token',
+                            refspec: '+refs/heads/*:refs/remotes/origin/*'
+                        ]]
+                    ])
+
+                    // Detect changed files compared to origin/main
                     CHANGED_FILES = sh(
-                        script: "git diff --name-only origin/main",
+                        script: "git diff --name-only origin/main...HEAD",
                         returnStdout: true
                     ).trim().split('\n')
-                    
+
                     echo "Changed Files: ${CHANGED_FILES}"
 
                     if (CHANGED_FILES.size() == 0 || CHANGED_FILES[0].trim() == "") {
                         error("No changed files detected! Nothing to test or build.")
                     }
 
-                    // Gán danh sách service thay đổi
                     def changedServices = CHANGED_FILES.findAll { it.startsWith("spring-petclinic-") }
                         .collect { it.split("/")[0] }
                         .unique()
@@ -44,7 +58,7 @@ pipeline {
                     for (service in services) {
                         dir(service) {
                             echo "Running tests for ${service}"
-                            sh "./mvnw test"
+                            sh "mvn clean verify"
                         }
                     }
                 }
@@ -59,7 +73,7 @@ pipeline {
                     for (service in services) {
                         dir(service) {
                             echo "Building ${service}"
-                            sh "./mvnw clean package -DskipTests"
+                            sh "mvn clean package -DskipTests"
                         }
                     }
                 }
