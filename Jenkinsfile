@@ -82,6 +82,7 @@ pipeline {
                             echo "Checking code coverage for ${service}"
                             def reportFile = "target/site/jacoco/jacoco.xml"
                             if (!fileExists(reportFile)) {
+                                sh 'echo "📂 Danh sách file trong target/site/jacoco:" && ls -l target/site/jacoco || echo "❌ Không tồn tại thư mục"'
                                 error "Coverage report not found for ${service}"
                             }
 
