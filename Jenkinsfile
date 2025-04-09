@@ -138,7 +138,14 @@ pipeline {
                     for (service in services) {
                         dir(service) {
                             junit 'target/surefire-reports/*.xml'
-                            recordCoverage(tools: [jacocoAdapter('target/site/jacoco/jacoco.xml')])
+                            publishHTML(target: [
+                                reportDir: 'target/site/jacoco',
+                                reportFiles: 'index.html',
+                                reportName: "${service} JaCoCo Report",
+                                keepAll: true,
+                                alwaysLinkToLastBuild: true,
+                                allowMissing: false
+                            ])
                         }
                     }
                 }
