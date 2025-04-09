@@ -74,30 +74,30 @@ pipeline {
         }
 
         stage('Debug Folder Structure') {
-    steps {
-        script {
-            dir('spring-petclinic-vets-service') {
-                echo "🔍 Đang kiểm tra thư mục hiện tại và nội dung thư mục target/site/jacoco"
-                sh '''
-                    echo "📂 Đường dẫn hiện tại:"
-                    pwd
-                    
-                    echo "📁 Cây thư mục từ root:"
-                    find . -type d | sort
-                    
-                    echo "📄 Danh sách file trong target/site:"
-                    ls -l target/site || echo "❌ Không tồn tại thư mục target/site"
+            steps {
+                script {
+                    dir('spring-petclinic-vets-service') {
+                        echo "🔍 Đang kiểm tra thư mục hiện tại và nội dung thư mục target/site/jacoco"
+                        sh '''
+                            echo "📂 Đường dẫn hiện tại:"
+                            pwd
+                            
+                            echo "📁 Cây thư mục từ root:"
+                            find . -type d | sort
+                            
+                            echo "📄 Danh sách file trong target/site:"
+                            ls -l target/site || echo "❌ Không tồn tại thư mục target/site"
 
-                    echo "📄 Danh sách file trong target/site/jacoco:"
-                    ls -l target/site/jacoco || echo "❌ Không tồn tại thư mục target/site/jacoco"
+                            echo "📄 Danh sách file trong target/site/jacoco:"
+                            ls -l target/site/jacoco || echo "❌ Không tồn tại thư mục target/site/jacoco"
 
-                    echo "📄 Danh sách file trong target:"
-                    ls -l target || echo "❌ Không tồn tại thư mục target"
-                '''
+                            echo "📄 Danh sách file trong target:"
+                            ls -l target || echo "❌ Không tồn tại thư mục target"
+                        '''
+                    }
+                }
             }
         }
-    }
-}
 
 
         stage('Check Coverage') {
@@ -138,7 +138,7 @@ pipeline {
                     for (service in services) {
                         dir(service) {
                             junit 'target/surefire-reports/*.xml'
-                            recordCoverage tools: ['JACOCO']
+                            recordCoverage(tools: [jacocoAdapter('target/site/jacoco/jacoco.xml')])
                         }
                     }
                 }
