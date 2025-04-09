@@ -13,7 +13,7 @@ pipeline {
         stage('Detect Changed Service') {
             steps {
                 script {
-                    // ✅ Fetch all branches including main
+                    // Fetch all branches including main
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: "*/${env.BRANCH_NAME}"]],
@@ -24,7 +24,7 @@ pipeline {
                         ]]
                     ])
 
-                    // 🔍 Detect changed files compared to origin/main
+                    // Detect changed files compared to origin/main
                     CHANGED_FILES = sh(
                         script: "git diff --name-only origin/main...HEAD",
                         returnStdout: true
