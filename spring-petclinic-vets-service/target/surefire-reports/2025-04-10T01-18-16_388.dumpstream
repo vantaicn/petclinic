@@ -1,0 +1,5 @@
+# Created at 2025-04-10T01:18:16.562
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Learning\College\s6\DevOps\project1\petclinic\spring-petclinic-vets-service\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
