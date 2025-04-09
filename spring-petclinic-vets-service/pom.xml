@@ -165,7 +165,7 @@
                         </configuration>
                     </plugin>
                  </plugins>
-             </build>
+             </build> 
          </profile>
         <profile>
             <id>buildDocker</id>
